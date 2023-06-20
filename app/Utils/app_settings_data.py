@@ -10,3 +10,5 @@ class AppSettings:
     language: str
     current_cam_index: int = None
     available_cams_index: List[int] = None
+
+    
