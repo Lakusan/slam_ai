@@ -3,12 +3,15 @@ from .main_menu import MainMenu
 from .camera_calib import CameraCalib
 from .slam import Slam
 from .settings import Settings
+from ..Utils.app_settings_data import AppSettings
 
 class FrameManager(tk.Tk):
     def __init__(self):
         super().__init__()
+        
+        self.config_set=AppSettings.get_instance()
 
-        # self.title(settings.app_name)
+        self.title(self.config_set.app_name)
         self.geometry("1024x768")
 
         self.main_frame = MainMenu(self)

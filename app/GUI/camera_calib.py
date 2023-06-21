@@ -3,7 +3,7 @@ import tkinter as tk
 class CameraCalib(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
-
+        
         label = tk.Label(self, text="Camera Calibration", font=("Arial", 18))
         label.pack(pady=20)
 
