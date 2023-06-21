@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 import time
+from ..Utils.cam_manager import CameraManager
 
 class LoadingScreen(tk.Frame):
     def __init__(self, master): 
         super().__init__(master)
         self.master = master
+        self.camera_manager = CameraManager()
         self.create_widgets()
         self.start_loading()
         
@@ -23,20 +25,26 @@ class LoadingScreen(tk.Frame):
         self.thread.start()
         
     def run_tasks(self):
-        self.super_method()
-        self.progress_var.set(50)
-        self.super_method()
-        self.progress_var.set(100)
-        self.update_progress()
-    
-    def super_method(self):
-        time.sleep(1)
-        print("done")
-        self.master.after(0, self.update_progress)
-    
+        # find all active usb cameras
+        self.loading_label.config(text="Looking for USB Web Cams")
+        try:
+            self.camera_manager.find_available_cameras()
+        except Exception as e:
+            self.loading_label.config(text="No USB-Camera found. Please connect one and restart the app.")
+
+        cameras_found = "Found " + str(len(self.camera_manager.get_availabe_cameras())) + " Camera(s)"
+        self.loading_label.config(text=cameras_found)
+        time.sleep(2)
+        self.loading_label.config(text="Stuff Loaded! Redirecting to Main Menu...")
+        time.sleep(2)
+        self.master.show_frame(self.master.main_frame)
+        
+    # for starting the next thread -> not needed right now
     def update_progress(self):
         if self.thread.is_alive():
-            # 100 is the delay until tkinter does the next step
+            # 100 is the delay in ms until tkinter does the next step
+            print("update progress")
             self.master.after(100, self.update_progress)
         else:
-            self.loading_label.config(text="Stuff Loaded!")
+            pass
+            
