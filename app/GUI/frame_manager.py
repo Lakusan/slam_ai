@@ -3,6 +3,7 @@ from .main_menu import MainMenu
 from .camera_calib import CameraCalib
 from .slam import Slam
 from .settings import Settings
+from .loading import LoadingScreen
 from ..Utils.app_settings_data import AppSettings
 
 class FrameManager(tk.Tk):
@@ -12,16 +13,17 @@ class FrameManager(tk.Tk):
         self.config_set=AppSettings.get_instance()
 
         self.title(self.config_set.app_name)
-        self.geometry("1024x768")
+        self.geometry(self.config_set.window_size)
 
         self.main_frame = MainMenu(self)
         self.calib_frame = CameraCalib(self)
         self.slam_frame = Slam(self)
         self.settings_frame = Settings(self)
+        self.loading_frame = LoadingScreen(self)
 
         self.current_frame = None
 
-        self.show_frame(self.main_frame)
+        self.show_frame(self.loading_frame)
 
     def show_frame(self, frame):
         if self.current_frame is not None:
