@@ -1,8 +1,18 @@
 import cv2
 from typing import List
 
-class CameraManager():
+class CameraManager:
+    _instance = None
     
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        self.cameras = []
+        self.cameraIndex = None
+
     def find_available_cameras(self) -> bool:
         self.cameras = []
         index = 0
@@ -16,11 +26,10 @@ class CameraManager():
         if len(self.cameras) != 0:
             return True
         else:
-            return False
-    
-    def get_availabe_cameras(self) -> List[int]:
+            raise Exception("No cameras found")
+
+    def get_available_cameras(self) -> List[int]:
         return self.cameras
-        
     
     def get_camera_index(self) -> int:
         return self.cameraIndex
