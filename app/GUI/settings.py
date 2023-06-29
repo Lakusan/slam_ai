@@ -1,5 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
+from ..Utils.cam_manager import CameraManager
+from ..Utils.app_settings_data import AppSettings
+from typing import List
+
 
 
 class Settings(tk.Frame):
@@ -17,14 +21,29 @@ class Settings(tk.Frame):
         self.button_back.pack()
         self.button_identify_cams.pack()
         
+        # camera manager
         self.camera_var = "title"
-        self.available_cameras =[1,2,3]
+        self.camera_manager = CameraManager()
+        self.available_cameras = []
+        self.available_cameras.append("None")
+        # drop down menu to select the camera index
         self.camera_dropdown = ttk.Combobox(self, textvariable=self.camera_var, values=self.available_cameras)
         self.camera_dropdown.pack()
+        # bind event on dropdown -> mouse enters -> get data
+        self.camera_dropdown.bind('<Enter>', self.populate_dropdown)
+        # bind event on dropdown -> on Selection -> set cam_index on AppSettings
+        self.camera_dropdown.bind('<<ComboboxSelected>>', self.handle_selection)
+        
+        
+        # App Settings Instance (dataclass) to store selected Camera if not cam_index=0
+        self.app_settings = AppSettings.get_instance()
         
     def select_current_cam(self):
         print("Camera selected")
     
-    def populate_dopdown():
-        pass
+    def populate_dropdown(self, event):
+        self.camera_dropdown['values'] = self.camera_manager.get_available_cameras()
+            
+    def handle_selection(self, event):
+        self.app_settings.set_current_cam_index(self.camera_dropdown.get())
         
