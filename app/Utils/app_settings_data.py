@@ -10,7 +10,7 @@ class AppSettings:
     theme: str
     language: str
     window_size: str
-    current_cam_index: int = None
+    current_cam_index: int = 0
     available_cams_index: List[int] = None
     
     _instance = None
@@ -44,6 +44,10 @@ class AppSettings:
     @classmethod
     def get_current_cam_index(self) -> int:
         return self.current_cam_index
+    
+    @classmethod
+    def set_current_cam_index(self, index):
+        self.current_cam_index = index
 
     @classmethod
     def get_available_cams_index(self) -> List[int]:
@@ -52,3 +56,4 @@ class AppSettings:
     @classmethod
     def get_window_size(self) -> str:
         return self.window_size
+    
