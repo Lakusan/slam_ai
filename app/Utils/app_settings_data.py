@@ -12,6 +12,8 @@ class AppSettings:
     window_size: str
     current_cam_index: int = 0
     available_cams_index: List[int] = None
+    calib_img_path: str = "calibration_images"
+    calib_params_path: str = "calib_params"
     
     _instance = None
     
@@ -57,3 +59,10 @@ class AppSettings:
     def get_window_size(self) -> str:
         return self.window_size
     
+    @classmethod
+    def get_calib_img_path(self) -> str:
+        return self.calib_img_path
+    
+    @classmethod
+    def get_calib_params_path(self) -> str:
+        return self.calib_params_path

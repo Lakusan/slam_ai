@@ -159,3 +159,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .vscode/
+
+# project related
+calibration_images
+images_backup
+calib_params
